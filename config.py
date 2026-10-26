@@ -1,4 +1,3 @@
-
 # PostgreSQL connection settings loaded from environment variables.
 
 import os
@@ -26,8 +25,9 @@ class Settings(BaseSettings):
     @classmethod
     def check_postgres_password(cls, data: Any) -> Any:
         if isinstance(data, dict):
-            password_file = data.get("POSTGRES_PASSWORD_FILE")
-            password = data.get("POSTGRES_PASSWORD")
+            config_data: dict[str, Any] = data
+            password_file: str | None = config_data.get("POSTGRES_PASSWORD_FILE")
+            password: str | None = config_data.get("POSTGRES_PASSWORD")
 
             if password_file is None and password is None:
                 raise ValueError(
@@ -41,7 +41,7 @@ class Settings(BaseSettings):
     def read_password_from_file(cls, value: str | None) -> str | None:
         if value is not None:
             if os.path.exists(value):
-                with open(value) as file:
+                with open(value, encoding="utf-8") as file:
                     return file.read().strip()
 
             raise ValueError(f"Password file {value} does not exist.")

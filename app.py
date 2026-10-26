@@ -1,4 +1,3 @@
-
 # FastAPI application backed by a PostgreSQL database via SQLModel.
 
 from collections.abc import AsyncGenerator, Sequence
