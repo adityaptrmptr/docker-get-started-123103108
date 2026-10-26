@@ -1,7 +1,7 @@
 # PostgreSQL connection settings loaded from environment variables.
 
 import os
-from typing import Any
+from typing import Any, cast
 
 from pydantic import (
     PostgresDsn,
@@ -25,7 +25,8 @@ class Settings(BaseSettings):
     @classmethod
     def check_postgres_password(cls, data: Any) -> Any:
         if isinstance(data, dict):
-            config_data: dict[str, Any] = data
+            config_data = cast(dict[str, Any], data)
+
             password_file: str | None = config_data.get("POSTGRES_PASSWORD_FILE")
             password: str | None = config_data.get("POSTGRES_PASSWORD")
 
@@ -33,6 +34,8 @@ class Settings(BaseSettings):
                 raise ValueError(
                     "POSTGRES_PASSWORD or POSTGRES_PASSWORD_FILE must be set."
                 )
+
+            return config_data
 
         return data
 
