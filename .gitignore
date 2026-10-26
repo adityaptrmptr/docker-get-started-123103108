@@ -57,6 +57,7 @@ ENV/
 env.bak/
 venv.bak/
 
+
 # Secrets
 db/password.txt
 
